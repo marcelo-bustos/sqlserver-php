@@ -1,4 +1,3 @@
-
 <footer class="bg-primary text-center text-white mt-2 mb-5">
   <!-- Grid container -->
   <div class="container-fluid">

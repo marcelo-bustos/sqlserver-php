@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $("#contenido").load("include/tabla.php");
 
     $('#btn_ingresar').click(function () {
 
@@ -38,11 +39,10 @@ $(document).ready(function () {
                             icon: 'success'
                         }).then((result) => {
                             if (result.isConfirmed) {
-
+                                $("#contenido").load("include/tabla.php");
                                 $('#nombre').val("");
                                 $('#edad').val("");
                                 $('#exampleModal').modal('hide');
-
                             }
 
                         })
@@ -62,10 +62,8 @@ $(document).ready(function () {
                         return false;
 
                     }
-
                 }
             });
-
         }
     });
 });
