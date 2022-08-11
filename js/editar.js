@@ -1,11 +1,44 @@
 $(document).ready(function () {
 
-    $('#btn_ingresar').click(function (e) {
+    $('.btn_editar').click(function () {
+        fila = $(this).closest("tr");
+        id = parseInt(fila.find('td:eq(0)').text());
 
-        e.preventDefault();
-        var nombre  = $("#nombre").val();
-        var edad    = $("#edad").val();
-        var fecha    = $("#fecha").val();
+        $("#id_editar").val(id);
+        console.log(id);
+
+        $.ajax({
+            type: "POST",
+            url: "include/procesa_cargar.php",
+            data: {
+                id
+            },
+
+            success: function (respuesta) {
+
+                console.log(respuesta);
+
+                data = JSON.parse(respuesta)
+
+                $("#nombre_editar").val(data.nombre);
+                $("#edad_editar").val(data.edad);
+                $("#fecha_editar").val(data.fecha);
+
+                $("#editar").modal('show'); 
+                
+            }
+        });
+
+       
+    });
+
+    $("#btn_editar").click(function(){
+
+        var id      = $("#id_editar").val();
+        var nombre  = $("#nombre_editar").val();
+        var edad    = $("#edad_editar").val();
+        var fecha    = $("#fecha_editar").val();
+
 
         if (nombre == "" || edad == "" || fecha == "") {
 
@@ -20,10 +53,11 @@ $(document).ready(function () {
         } else {
             $.ajax({
                 type: "POST",
-                url: "include/procesa_insertar.php",
+                url: "include/procesa_actualizar.php",
                 data: {
                     nombre,
                     edad,
+                    id,
                     fecha
                 },
 
@@ -37,14 +71,14 @@ $(document).ready(function () {
                             title: 'AVISO',
                             position: 'top',
                             allowOutsideClick: false,
-                            text: "Registro Ingresado Correctamente",
+                            text: "Registro actualizado Correctamente",
                             icon: 'success'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                $('#nombre').val("");
-                                $('#edad').val("");
-                                $('#exampleModal').modal('hide');
-                                lista_mascotas.ajax.reload(null, false);
+                                $("#contenido").load("include/tabla.php");
+                                // $('#nombre').val("");
+                                // $('#edad').val("");
+                                $('#editar').modal('hide');
                             }
 
                         })
@@ -57,7 +91,7 @@ $(document).ready(function () {
                             icon: 'error',
                             position: 'top',
                             allowOutsideClick: false,
-                            title: 'Registro no Ingresado',
+                            title: 'Registro no actualizado',
                             text: 'Verifique algun caracter no valido en los campos'
                         })
 
@@ -67,5 +101,6 @@ $(document).ready(function () {
                 }
             });
         }
-    });
+    })
+
 });

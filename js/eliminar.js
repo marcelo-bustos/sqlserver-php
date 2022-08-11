@@ -1,5 +1,9 @@
 $(document).ready(function () {
-    $('.btn_eliminar').click(function () {
+
+  $(document).on("click", ".btn_eliminar", function () {
+
+
+      console.log("Hola entré");
         fila = $(this).closest("tr");
         id = parseInt(fila.find('td:eq(0)').text());
         
@@ -22,22 +26,18 @@ $(document).ready(function () {
           }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    type: "POST",
-                    url: "include/procesa_eliminar.php",
-                    data: {
-                        id
-                },
+                  url: "include/procesa_eliminar.php",
+                  type: "POST",
+                  datatype: "json",
+                  data: {id},
     
-                success: function (a) {
+                success: function () {
                     swalWithBootstrapButtons.fire(
                         'Eliminado!',
                         'Tu registro ha sido eliminado',
                         'success'
                     )
-                    $("#contenido").load("include/tabla.php");
-                    $('#nombre').val("");
-                    $('#edad').val("");
-                    $('#exampleModal').modal('hide');
+                    lista_mascotas.ajax.reload(null, false);
                 }
             })
             } else if (
