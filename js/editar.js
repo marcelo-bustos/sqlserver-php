@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('.btn_editar').click(function () {
+    $(document).on("click", ".btn_editar", function () {
         fila = $(this).closest("tr");
         id = parseInt(fila.find('td:eq(0)').text());
 
@@ -75,10 +75,8 @@ $(document).ready(function () {
                             icon: 'success'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                $("#contenido").load("include/tabla.php");
-                                // $('#nombre').val("");
-                                // $('#edad').val("");
                                 $('#editar').modal('hide');
+                                lista_mascotas.ajax.reload(null, false);
                             }
 
                         })
